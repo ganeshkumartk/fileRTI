@@ -1,0 +1,75 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { HeroSection } from "@/components/hero-section"
+import { RTIComposer } from "@/components/rti-composer"
+import { RTISidebar } from "@/components/rti-sidebar"
+import { ExpertTemplates } from "@/components/expert-templates"
+import { SetupGuide } from "@/components/setup-guide"
+
+export default function HomePage() {
+  const [isSupabaseConfigured, setIsSupabaseConfigured] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    // Check if Supabase environment variables are configured
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+    setIsSupabaseConfigured(!!(supabaseUrl && supabaseKey))
+  }, [])
+
+  // Show loading state while checking configuration
+  if (isSupabaseConfigured === null) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-neutral-50">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-neutral-200 border-t-neutral-900 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-neutral-600 font-light">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Show setup guide if Supabase is not configured
+  if (!isSupabaseConfigured) {
+    return <SetupGuide />
+  }
+
+  // Show the main application if everything is configured
+  return (
+    <main className="min-h-screen bg-neutral-50">
+      <HeroSection />
+      
+      {/* Professional Composer Section */}
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-8">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <h1 className="text-5xl font-light tracking-tight text-neutral-900 mb-4">
+              Professional Composer
+            </h1>
+            <p className="text-xl font-light text-neutral-600 max-w-2xl mx-auto">
+              Precision-crafted legal documents for government transparency
+            </p>
+          </div>
+
+          {/* Main Layout */}
+          <div className="grid grid-cols-1 xl:grid-cols-4 gap-12">
+            {/* Left Column - RTI Composer */}
+            <div className="xl:col-span-3">
+              <RTIComposer />
+            </div>
+
+            {/* Right Column - Sidebar */}
+            <div className="xl:col-span-1">
+              <RTISidebar />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Expert Templates Section */}
+      <ExpertTemplates />
+    </main>
+  )
+}
