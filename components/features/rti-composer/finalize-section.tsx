@@ -27,7 +27,7 @@ export function FinalizeSection({
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center space-x-3 font-light text-lg">
           <User className="w-5 h-5 text-gray-600" />
-          <span>Finalize Application</span>
+          <span>Application Setup</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">

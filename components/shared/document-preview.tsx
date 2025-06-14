@@ -256,103 +256,106 @@ ${place ? `Place: ${place}` : ''}
             <p className="text-xs sm:text-sm text-gray-500 font-light truncate">{title}</p>
           </div>
           
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-            {/* Zoom Controls */}
-            <div className="flex items-center border border-gray-200 rounded-md bg-white order-2 sm:order-1">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={zoomOut}
-                disabled={zoomLevel <= 0.5}
-                className="h-8 w-8 sm:h-9 sm:w-9 p-0 hover:bg-black hover:text-white text-gray-600 rounded-l-md rounded-r-none border-r border-gray-200"
-              >
-                <ZoomOut className="h-3 w-3 sm:h-4 sm:w-4" />
-              </Button>
-              <div className="px-2 sm:px-3 py-1 bg-gray-50 text-gray-900 font-light min-w-[2.5rem] sm:min-w-[3rem] text-center text-xs sm:text-sm">
-                {Math.round(zoomLevel * 100)}%
+          <div className="flex flex-col gap-2 sm:gap-3">
+            {/* Zoom and Place Controls - Side by Side Full Width */}
+            <div className="flex items-center gap-2 w-full">
+              {/* Zoom Controls - Ultra Minimalistic Floating Design */}
+              <div className="flex items-center bg-black/5 backdrop-blur-xl rounded-full border border-white/20 shadow-sm hover:shadow-md transition-all duration-300 flex-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={zoomOut}
+                  disabled={zoomLevel <= 0.5}
+                  className="h-8 w-8 sm:h-9 sm:w-9 p-0 hover:bg-black/10 active:bg-black/20 text-gray-700 hover:text-black rounded-full border-0 disabled:opacity-30 disabled:hover:bg-transparent transition-all duration-200"
+                >
+                  <ZoomOut className="h-3 w-3 sm:h-4 sm:w-4" />
+                </Button>
+                <div className="px-2 sm:px-3 py-1 bg-transparent text-gray-900 font-light flex-1 text-center text-xs sm:text-sm select-none">
+                  {Math.round(zoomLevel * 100)}%
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={zoomIn}
+                  disabled={zoomLevel >= 2}
+                  className="h-8 w-8 sm:h-9 sm:w-9 p-0 hover:bg-black/10 active:bg-black/20 text-gray-700 hover:text-black rounded-full border-0 disabled:opacity-30 disabled:hover:bg-transparent transition-all duration-200"
+                >
+                  <ZoomIn className="h-3 w-3 sm:h-4 sm:w-4" />
+                </Button>
               </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={zoomIn}
-                disabled={zoomLevel >= 2}
-                className="h-8 w-8 sm:h-9 sm:w-9 p-0 hover:bg-black hover:text-white text-gray-600 rounded-r-md rounded-l-none border-l border-gray-200"
-              >
-                <ZoomIn className="h-3 w-3 sm:h-4 sm:w-4" />
-              </Button>
+
+              {/* Place Settings - Floating Minimalistic Design */}
+              <Dialog open={showPlaceSettings} onOpenChange={setShowPlaceSettings}>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 sm:h-9 px-3 sm:px-4 text-gray-700 hover:text-black hover:bg-black/10 active:bg-black/20 bg-black/5 backdrop-blur-xl rounded-full border border-white/20 shadow-sm hover:shadow-md text-xs sm:text-sm font-light transition-all duration-300 flex-1 min-w-0"
+                  >
+                    <MapPin className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
+                    <span className="truncate">Place</span>
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="w-[95vw] max-w-md mx-auto">
+                  <DialogHeader>
+                    <DialogTitle className="font-light text-lg sm:text-xl">Place Settings</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4 py-4">
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="show-place" className="text-sm font-medium">Show Place in Document</Label>
+                      <Switch
+                        id="show-place"
+                        checked={showPlace}
+                        onCheckedChange={setShowPlace}
+                      />
+                    </div>
+                    {showPlace && (
+                      <div className="space-y-2">
+                        <Label htmlFor="place" className="text-sm font-medium">
+                          Place (Auto-detected - {userLocation})
+                        </Label>
+                        <Input
+                          id="place"
+                          placeholder={userLocation}
+                          value={customPlace}
+                          onChange={(e) => setCustomPlace(e.target.value)}
+                          className="rounded-xl border-gray-200 focus:border-gray-400 focus:ring-1 focus:ring-gray-400"
+                        />
+                        <p className="text-xs text-gray-500">Leave empty to use auto-detected location</p>
+                      </div>
+                    )}
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
 
-            {/* Place Settings */}
-            <Dialog open={showPlaceSettings} onOpenChange={setShowPlaceSettings}>
-              <DialogTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="h-8 sm:h-9 px-2 sm:px-3 text-gray-600 hover:text-white hover:bg-black border-gray-200 text-xs sm:text-sm order-3 sm:order-2"
-                >
-                  <MapPin className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                  <span className="hidden xs:inline">Place</span>
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="w-[95vw] max-w-md mx-auto">
-                <DialogHeader>
-                  <DialogTitle className="font-light text-lg sm:text-xl">Place Settings</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4 py-4">
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="show-place" className="text-sm font-medium">Show Place in Document</Label>
-                    <Switch
-                      id="show-place"
-                      checked={showPlace}
-                      onCheckedChange={setShowPlace}
-                    />
-                  </div>
-                  {showPlace && (
-                    <div className="space-y-2">
-                      <Label htmlFor="place" className="text-sm font-medium">
-                        Place (Auto-detected - {userLocation})
-                      </Label>
-                      <Input
-                        id="place"
-                        placeholder={userLocation}
-                        value={customPlace}
-                        onChange={(e) => setCustomPlace(e.target.value)}
-                        className="rounded-xl border-gray-200 focus:border-gray-400 focus:ring-1 focus:ring-gray-400"
-                      />
-                      <p className="text-xs text-gray-500">Leave empty to use auto-detected location</p>
-                    </div>
-                  )}
-                </div>
-              </DialogContent>
-            </Dialog>
-
-            {/* Action Buttons */}
-            <div className="flex items-center gap-1 sm:gap-2 order-1 sm:order-3 w-full sm:w-auto">
+            {/* Action Buttons - Premium Floating Design */}
+            <div className="flex items-center gap-2 sm:gap-3 order-1 sm:order-3 w-full sm:w-auto bg-black/5 backdrop-blur-xl rounded-full p-1 border border-white/20 shadow-sm hover:shadow-md transition-all duration-300">
               <Button
-                variant="outline"
+                variant="ghost"
                 size="sm"
                 onClick={() => handleExport('pdf')}
-                className="flex-1 sm:flex-none h-8 sm:h-9 px-2 sm:px-3 text-gray-600 hover:text-white hover:bg-black border-gray-200 text-xs sm:text-sm"
+                className="flex-1 sm:flex-none h-7 sm:h-8 px-3 sm:px-4 text-gray-700 hover:text-white hover:bg-black active:bg-black/90 rounded-full text-xs sm:text-sm font-light transition-all duration-200 border-0"
               >
                 <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                 PDF
               </Button>
               
               <Button
-                variant="outline"
+                variant="ghost"
                 size="sm"
                 onClick={() => handleExport('word')}
-                className="flex-1 sm:flex-none h-8 sm:h-9 px-2 sm:px-3 text-gray-600 hover:text-white hover:bg-black border-gray-200 text-xs sm:text-sm"
+                className="flex-1 sm:flex-none h-7 sm:h-8 px-3 sm:px-4 text-gray-700 hover:text-white hover:bg-black active:bg-black/90 rounded-full text-xs sm:text-sm font-light transition-all duration-200 border-0"
               >
                 <FileText className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                 Word
               </Button>
               
               <Button
-                variant="outline"
+                variant="ghost"
                 size="sm"
                 onClick={handleCopy}
-                className="flex-1 sm:flex-none h-8 sm:h-9 px-2 sm:px-3 text-gray-600 hover:text-white hover:bg-black border-gray-200 text-xs sm:text-sm"
+                className="flex-1 sm:flex-none h-7 sm:h-8 px-3 sm:px-4 text-gray-700 hover:text-white hover:bg-black active:bg-black/90 rounded-full text-xs sm:text-sm font-light transition-all duration-200 border-0"
               >
                 <Copy className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                 Copy
@@ -491,8 +494,8 @@ ${place ? `Place: ${place}` : ''}
                       </div>
 
                       {/* Signature */}
-                      <div className="text-center space-y-2 sm:space-y-3 order-1 sm:order-2 w-full sm:w-auto">
-                        <div className="flex flex-col items-center">
+                      <div className="text-right sm:text-center space-y-2 sm:space-y-3 order-1 sm:order-2 w-full sm:w-auto flex flex-col items-end sm:items-center">
+                        <div className="flex flex-col items-end sm:items-center">
                           {signature ? (
                             <div className="border border-gray-300 rounded p-2 bg-white">
                               <img 

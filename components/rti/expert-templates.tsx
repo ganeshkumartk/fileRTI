@@ -73,8 +73,20 @@ export function ExpertTemplates() {
   
   const { updateDraft } = useRTIStore()
 
+  // Responsive templates per page
+  const [isMobile, setIsMobile] = useState(false)
   
-  const TEMPLATES_PER_PAGE = 6
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640) // sm breakpoint
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+  
+  const TEMPLATES_PER_PAGE = isMobile ? 2 : 6
   const totalPages = Math.ceil(filteredTemplates.length / TEMPLATES_PER_PAGE)
   const currentTemplates = filteredTemplates.slice(
     currentPage * TEMPLATES_PER_PAGE,
@@ -102,8 +114,20 @@ export function ExpertTemplates() {
           return
         }
 
-        setTemplates(data || [])
-        setFilteredTemplates(data || [])
+        // Deduplicate templates based on title and category
+        const deduplicatedTemplates = data?.reduce((acc: Template[], current: Template) => {
+          const isDuplicate = acc.some(template => 
+            template.title.toLowerCase() === current.title.toLowerCase() && 
+            template.category === current.category
+          )
+          if (!isDuplicate) {
+            acc.push(current)
+          }
+          return acc
+        }, []) || []
+
+        setTemplates(deduplicatedTemplates)
+        setFilteredTemplates(deduplicatedTemplates)
       } catch (err) {
         console.error('Unexpected error:', err)
         setError('An unexpected error occurred. Please try again.')
@@ -248,15 +272,15 @@ export function ExpertTemplates() {
   // Loading state
   if (loading) {
     return (
-      <section className="py-16 md:py-24 lg:py-32 bg-white">
+      <section className="py-8 md:py-24 lg:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-12 md:mb-16 lg:mb-20"
+            className="text-center mb-6 md:mb-16 lg:mb-20"
           >
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-tight text-gray-900 mb-4 md:mb-6">Expert Templates</h2>
-            <p className="text-lg sm:text-xl font-light text-gray-500 max-w-2xl mx-auto px-4">Curated formats for government transparency</p>
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-light tracking-tight text-gray-900 mb-3 md:mb-6">Expert Templates</h2>
+            <p className="text-base sm:text-xl font-light text-gray-500 max-w-2xl mx-auto px-4">Curated formats for government transparency</p>
           </motion.div>
           
           <div className="flex justify-center items-center py-20">
@@ -270,15 +294,15 @@ export function ExpertTemplates() {
   // Error state
   if (error) {
     return (
-      <section className="py-16 md:py-24 lg:py-32 bg-white">
+      <section className="py-8 md:py-24 lg:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-12 md:mb-16 lg:mb-20"
+            className="text-center mb-6 md:mb-16 lg:mb-20"
           >
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-tight text-gray-900 mb-4 md:mb-6">Expert Templates</h2>
-            <p className="text-lg sm:text-xl font-light text-gray-500 max-w-2xl mx-auto px-4">Curated formats for government transparency</p>
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-light tracking-tight text-gray-900 mb-3 md:mb-6">Expert Templates</h2>
+            <p className="text-base sm:text-xl font-light text-gray-500 max-w-2xl mx-auto px-4">Curated formats for government transparency</p>
           </motion.div>
           
           <Card className="max-w-md mx-auto border-0 shadow-sm">
@@ -300,17 +324,17 @@ export function ExpertTemplates() {
   }
 
   return (
-    <section className="py-16 md:py-24 lg:py-32 bg-white">
+    <section className="py-8 md:py-24 lg:py-32 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
         {/* Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12 md:mb-16 lg:mb-20"
+          className="text-center mb-6 md:mb-16 lg:mb-20"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-tight text-gray-900 mb-4 md:mb-6">Expert Templates</h2>
-          <p className="text-lg sm:text-xl font-light text-gray-500 max-w-2xl mx-auto px-4">Curated formats for government transparency</p>
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-light tracking-tight text-gray-900 mb-3 md:mb-6">Expert Templates</h2>
+          <p className="text-base sm:text-xl font-light text-gray-500 max-w-2xl mx-auto px-4">Curated formats for government transparency</p>
         </motion.div>
 
         {/* Filters */}
@@ -319,7 +343,7 @@ export function ExpertTemplates() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
-          className="flex flex-col sm:flex-row gap-4 mb-12 md:mb-16 max-w-2xl mx-auto"
+          className="flex flex-col sm:flex-row gap-4 mb-6 md:mb-16 max-w-2xl mx-auto"
         >
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -358,7 +382,7 @@ export function ExpertTemplates() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
+              className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8"
             >
               {currentTemplates.length === 0 ? (
                 <div className="col-span-full text-center py-20">
@@ -368,34 +392,34 @@ export function ExpertTemplates() {
               ) : (
                 currentTemplates.map((template, index) => (
                   <motion.div
-                    key={template.id}
+                    key={`${template.id}-${template.title}-${index}`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                   >
                     <Card className="h-full border-0 shadow-sm hover:shadow-md transition-all duration-300 bg-white/80 backdrop-blur-sm">
-                      <CardHeader className="pb-4">
-                        <div className="flex items-center justify-between mb-4">
+                      <CardHeader className="pb-3 sm:pb-4 px-3 sm:px-6 pt-3 sm:pt-6">
+                        <div className="flex items-center justify-between mb-2 sm:mb-4">
                           <Badge 
                             variant="secondary" 
-                            className="bg-gray-100 text-gray-700 text-xs font-light border-0 rounded-full"
+                            className="bg-gray-100 text-gray-700 text-xs font-light border-0 rounded-full px-2 py-1"
                           >
                             {template.category}
                           </Badge>
-                          <div className="flex items-center gap-1 text-xs text-gray-500 font-light">
+                          <div className="hidden sm:flex items-center gap-1 text-xs text-gray-500 font-light">
                             <CheckCircle className="h-3 w-3" />
                             <span>Verified</span>
                           </div>
                         </div>
-                        <CardTitle className="font-light text-lg tracking-tight text-gray-900 line-clamp-2">
+                        <CardTitle className="font-light text-sm sm:text-lg tracking-tight text-gray-900 line-clamp-2 leading-tight">
                           {template.title}
                         </CardTitle>
-                        <CardDescription className="font-light text-gray-600 line-clamp-2 leading-relaxed">
+                        <CardDescription className="hidden sm:block font-light text-gray-600 line-clamp-2 leading-relaxed">
                           {template.description || "Professional RTI template"}
                         </CardDescription>
                       </CardHeader>
                       
-                      <CardContent className="pt-0">
+                      <CardContent className="pt-0 px-3 sm:px-6 hidden sm:block">
                         <div className="flex items-center gap-4 text-xs text-gray-500 font-light mb-4">
                           <div className="flex items-center gap-1">
                             <Users className="h-3 w-3" />
@@ -406,22 +430,24 @@ export function ExpertTemplates() {
                         </div>
                       </CardContent>
 
-                      <CardFooter className="pt-0 flex gap-2">
+                      <CardFooter className="pt-0 px-3 sm:px-6 pb-3 sm:pb-6 flex flex-col sm:flex-row gap-2">
                         <Button 
                           variant="ghost" 
                           size="sm" 
                           onClick={() => handlePreview(template)}
-                          className="flex-1 text-gray-600 hover:text-gray-900 hover:bg-gray-900 hover:text-gray-50 font-light"
+                          className="w-full sm:flex-1 text-gray-600 hover:text-gray-900 hover:bg-gray-900 hover:text-gray-50 font-light text-xs sm:text-sm h-8 sm:h-9"
                         >
-                          <Eye className="h-3 w-3 mr-2" />
-                          Preview
+                          <Eye className="h-3 w-3 mr-1 sm:mr-2" />
+                          <span className="hidden sm:inline">Preview</span>
+                          <span className="sm:hidden">View</span>
                         </Button>
                         <Button 
                           size="sm" 
                           onClick={() => handleUseTemplate(template)}
-                          className="flex-1 bg-gray-900 hover:bg-gray-800 text-white font-light"
+                          className="w-full sm:flex-1 bg-gray-900 hover:bg-gray-800 text-white font-light text-xs sm:text-sm h-8 sm:h-9"
                         >
-                          Use Template
+                          <span className="hidden sm:inline">Use Template</span>
+                          <span className="sm:hidden">Use</span>
                         </Button>
                       </CardFooter>
                     </Card>

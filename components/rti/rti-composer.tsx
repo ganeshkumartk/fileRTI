@@ -247,12 +247,28 @@ export default function RTIComposer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-12 md:mb-16"
+          className="mb-6 md:mb-16"
         >
           <ComposerModeSelection mode={composerMode} onModeChange={setComposerMode} />
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-12">
+        {/* Application Setup - Mobile Only (between tabs and editor) */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="lg:hidden mb-4"
+        >
+          <FinalizeSection
+            applicantData={applicantData}
+            signature={signature || null}
+            onShowApplicantForm={() => setShowApplicantForm(true)}
+            onShowSignature={() => setShowSignature(true)}
+          />
+        </motion.div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-8 lg:gap-12">
           {/* Main Composer Area */}
           <div className="lg:col-span-3 order-1">
             <Card className="border border-gray-200 shadow-sm bg-white">
@@ -307,9 +323,9 @@ export default function RTIComposer() {
             </Card>
           </div>
 
-          {/* Right Sidebar */}
-          <div className="lg:col-span-1 order-2 space-y-4 md:space-y-6">
-            {/* Finalize Section */}
+          {/* Right Sidebar - Desktop Only */}
+          <div className="hidden lg:block lg:col-span-1 order-2 space-y-4 md:space-y-6">
+            {/* Application Setup Section - Desktop */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -349,6 +365,34 @@ export default function RTIComposer() {
               <ComplianceSection compliance={compliance} wordCount={wordCount} />
             </motion.div>
           </div>
+        </div>
+
+        {/* Mobile Actions and Compliance - Below Editor */}
+        <div className="lg:hidden mt-4 space-y-3">
+          {/* Actions Section - Mobile */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <ActionsSection
+              onPreview={() => setShowPreview(true)}
+              onExportPDF={() => handleExport('pdf')}
+              onExportWord={() => handleExport('word')}
+              onShare={handleShare}
+            />
+          </motion.div>
+
+          {/* Compliance Section - Mobile */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <ComplianceSection compliance={compliance} wordCount={wordCount} />
+          </motion.div>
         </div>
 
         {/* Dialogs */}
