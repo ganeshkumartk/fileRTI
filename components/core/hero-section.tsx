@@ -35,7 +35,7 @@ export function HeroSection() {
   }, [])
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-white relative overflow-hidden">
+    <section className="min-h-screen flex items-center justify-center bg-white relative overflow-hidden pt-20">
       {/* Subtle background pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(0,0,0,0.02)_1px,transparent_0)] [background-size:24px_24px]" />
 

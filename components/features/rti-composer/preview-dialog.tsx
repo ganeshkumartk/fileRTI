@@ -27,17 +27,19 @@ export function PreviewDialog({
 }: PreviewDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl h-[90vh] flex flex-col">
+      <DialogContent className="w-[95vw] max-w-4xl h-[90vh] sm:h-[85vh] md:h-[90vh] flex flex-col p-0 sm:p-6">
         <DialogHeader className="sr-only">
           <DialogTitle>RTI Application Preview</DialogTitle>
         </DialogHeader>
-        <DocumentPreview
-          content={content}
-          title={`RTI Application - ${applicantDetails?.name || 'Untitled'}`}
-          applicantDetails={applicantDetails || undefined}
-          signature={signature}
-          departmentName={departmentName}
-        />
+        <div className="flex-1 overflow-hidden">
+          <DocumentPreview
+            content={content}
+            title={`RTI Application - ${applicantDetails?.name || 'Untitled'}`}
+            applicantDetails={applicantDetails || undefined}
+            signature={signature}
+            departmentName={departmentName}
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );

@@ -93,11 +93,12 @@ export default function SignaturePad({ onSignature, className = "", existingSign
     setIsDrawing(false);
     setHasSignature(true);
     
-    const canvas = canvasRef.current;
-    if (canvas && onSignature) {
-      onSignature(canvas.toDataURL());
-    }
-  }, [onSignature]);
+    // Remove auto-save on draw - let user explicitly save
+    // const canvas = canvasRef.current;
+    // if (canvas && onSignature) {
+    //   onSignature(canvas.toDataURL());
+    // }
+  }, []);
 
   const clearSignature = useCallback(() => {
     const canvas = canvasRef.current;
@@ -111,9 +112,12 @@ export default function SignaturePad({ onSignature, className = "", existingSign
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     setHasSignature(false);
     setUploadedImage(null);
-    
-    if (onSignature) {
-      onSignature('');
+  }, []);
+
+  const handleSaveSignature = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (canvas && onSignature) {
+      onSignature(canvas.toDataURL());
     }
   }, [onSignature]);
 
@@ -146,9 +150,7 @@ export default function SignaturePad({ onSignature, className = "", existingSign
         setUploadedImage(event.target?.result as string);
         setHasSignature(true);
         
-        if (onSignature) {
-          onSignature(canvas.toDataURL());
-        }
+        // Remove auto-save on upload - let user explicitly save
       };
       img.src = event.target?.result as string;
     };
@@ -157,37 +159,39 @@ export default function SignaturePad({ onSignature, className = "", existingSign
 
   return (
     <div className={className}>
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-slate-900">हस्ताक्षर / Signature</h3>
-          <div className="flex gap-2">
+      <div className="space-y-3 sm:space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
+          <h3 className="text-base sm:text-lg font-semibold text-slate-900 text-center sm:text-left">हस्ताक्षर / Signature</h3>
+          <div className="flex gap-1 sm:gap-2 justify-center sm:justify-end">
             <Button
               variant={activeTab === 'draw' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setActiveTab('draw')}
               className={cn(
-                "flex items-center gap-2",
+                "flex items-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3",
                 activeTab === 'draw' 
                   ? "bg-gray-900 text-white hover:bg-gray-800" 
                   : "hover:bg-gray-900 hover:text-gray-50"
               )}
             >
-              <Pen className="w-4 h-4" />
-              Draw
+              <Pen className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Draw</span>
+              <span className="sm:hidden">Draw</span>
             </Button>
             <Button
               variant={activeTab === 'upload' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setActiveTab('upload')}
               className={cn(
-                "flex items-center gap-2",
+                "flex items-center gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3",
                 activeTab === 'upload' 
                   ? "bg-gray-900 text-white hover:bg-gray-800" 
                   : "hover:bg-gray-900 hover:text-gray-50"
               )}
             >
-              <Upload className="w-4 h-4" />
-              Upload
+              <Upload className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Upload</span>
+              <span className="sm:hidden">Upload</span>
             </Button>
           </div>
         </div>
@@ -198,7 +202,7 @@ export default function SignaturePad({ onSignature, className = "", existingSign
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="space-y-4"
+            className="space-y-3 sm:space-y-4"
           >
             <div className="relative">
               <canvas
@@ -207,14 +211,36 @@ export default function SignaturePad({ onSignature, className = "", existingSign
                 onMouseMove={draw}
                 onMouseUp={stopDrawing}
                 onMouseLeave={stopDrawing}
-                className="border-2 border-dashed border-slate-300 rounded-lg cursor-crosshair w-full h-48 bg-white"
+                onTouchStart={(e) => {
+                  e.preventDefault();
+                  const touch = e.touches[0];
+                  const mouseEvent = new MouseEvent('mousedown', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                  });
+                  startDrawing(mouseEvent as any);
+                }}
+                onTouchMove={(e) => {
+                  e.preventDefault();
+                  const touch = e.touches[0];
+                  const mouseEvent = new MouseEvent('mousemove', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                  });
+                  draw(mouseEvent as any);
+                }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  stopDrawing();
+                }}
+                className="border-2 border-dashed border-slate-300 rounded-lg cursor-crosshair w-full h-36 sm:h-48 bg-white"
                 style={{ touchAction: 'none' }}
                 width={400}
                 height={200}
               />
               {!hasSignature && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <p className="text-slate-400 text-sm">यहाँ हस्ताक्षर करें / Sign here</p>
+                  <p className="text-slate-400 text-xs sm:text-sm text-center px-2">यहाँ हस्ताक्षर करें / Sign here</p>
                 </div>
               )}
             </div>
@@ -225,9 +251,9 @@ export default function SignaturePad({ onSignature, className = "", existingSign
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="space-y-4"
+            className="space-y-3 sm:space-y-4"
           >
-            <div className="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center">
+            <div className="border-2 border-dashed border-slate-300 rounded-lg p-4 sm:p-8 text-center">
               <input
                 type="file"
                 accept="image/*"
@@ -239,8 +265,8 @@ export default function SignaturePad({ onSignature, className = "", existingSign
                 htmlFor="signature-upload"
                 className="cursor-pointer flex flex-col items-center gap-2"
               >
-                <Upload className="w-8 h-8 text-slate-400" />
-                <p className="text-sm text-slate-600">
+                <Upload className="w-6 h-6 sm:w-8 sm:h-8 text-slate-400" />
+                <p className="text-xs sm:text-sm text-slate-600">
                   Click to upload signature image
                 </p>
                 <p className="text-xs text-slate-400">
@@ -250,33 +276,36 @@ export default function SignaturePad({ onSignature, className = "", existingSign
             </div>
             
             {uploadedImage && (
-              <div className="mt-4">
+              <div className="mt-3 sm:mt-4">
                 <canvas
                   ref={canvasRef}
-                  className="border rounded-lg w-full h-48 bg-white"
+                  className="border rounded-lg w-full h-36 sm:h-48 bg-white"
                 />
               </div>
             )}
           </motion.div>
         )}
 
-        <div className="flex justify-between items-center pt-4">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-0 pt-3 sm:pt-4">
           <Button
             variant="outline"
             size="sm"
             onClick={clearSignature}
             disabled={!hasSignature}
-            className="flex items-center gap-2 hover:bg-gray-900 hover:text-gray-50"
+            className="flex items-center justify-center gap-2 hover:bg-gray-900 hover:text-gray-50 w-full sm:w-auto"
           >
-            <RotateCcw className="w-4 h-4" />
+            <RotateCcw className="w-3 h-3 sm:w-4 sm:h-4" />
             Clear
           </Button>
 
           {hasSignature && (
-            <div className="flex items-center gap-2 text-sm text-gray-700">
-              <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
-              Signature ready
-            </div>
+            <Button
+              onClick={handleSaveSignature}
+              size="sm"
+              className="bg-gray-900 text-white hover:bg-gray-800 w-full sm:w-auto"
+            >
+              Save Signature
+            </Button>
           )}
         </div>
 

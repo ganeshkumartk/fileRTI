@@ -225,18 +225,18 @@ export default function RTIComposer() {
   const departmentName = departments.find(d => d.id === draft.departmentId)?.name || "[Department Name]";
 
   return (
-    <section id="composer" className="py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-8 lg:px-12">
+    <section id="composer" className="py-16 md:py-24 lg:py-32 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className="text-center mb-12 md:mb-16 lg:mb-20"
         >
-          <h2 className="text-6xl font-light text-gray-900 mb-6 tracking-tight">RTI Composer</h2>
-          <p className="text-xl font-light text-gray-500 max-w-2xl mx-auto">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-light text-gray-900 mb-4 md:mb-6 tracking-tight">RTI Composer</h2>
+          <p className="text-lg sm:text-xl font-light text-gray-500 max-w-2xl mx-auto px-4">
             Create professional RTI applications with AI assistance or manual composition
           </p>
         </motion.div>
@@ -247,14 +247,14 @@ export default function RTIComposer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-16"
+          className="mb-12 md:mb-16"
         >
           <ComposerModeSelection mode={composerMode} onModeChange={setComposerMode} />
         </motion.div>
 
-        <div className="grid lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-12">
           {/* Main Composer Area */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 order-1">
             <Card className="border border-gray-200 shadow-sm bg-white">
               <CardContent className="p-0">
                 <Tabs value={composerMode} className="w-full">
@@ -308,7 +308,7 @@ export default function RTIComposer() {
           </div>
 
           {/* Right Sidebar */}
-          <div className="lg:col-span-1 space-y-6">
+          <div className="lg:col-span-1 order-2 space-y-4 md:space-y-6">
             {/* Finalize Section */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
@@ -316,12 +316,12 @@ export default function RTIComposer() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-                             <FinalizeSection
-                 applicantData={applicantData}
-                 signature={signature || null}
-                 onShowApplicantForm={() => setShowApplicantForm(true)}
-                 onShowSignature={() => setShowSignature(true)}
-               />
+              <FinalizeSection
+                applicantData={applicantData}
+                signature={signature || null}
+                onShowApplicantForm={() => setShowApplicantForm(true)}
+                onShowSignature={() => setShowSignature(true)}
+              />
             </motion.div>
 
             {/* Actions Section */}

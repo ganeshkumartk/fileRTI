@@ -176,13 +176,6 @@ export default function DocumentPreview({
     // Remove additional patterns with regex
     htmlContent = htmlContent.replace(/Subject:\s*Request for Information under RTI Act 2005/gi, '');
     htmlContent = htmlContent.replace(/Subject:\s*/gi, '');
-    htmlContent = htmlContent.replace(/I,\s*,?\s*a citizen of India,?\s*hereby request the following information under the\s*:?/gi, '');
-    htmlContent = htmlContent.replace(/I,\s*[^,]*,?\s*a citizen of India,?\s*hereby request the following information under the Right to Information Act,?\s*2005:?/gi, '');
-    htmlContent = htmlContent.replace(/a citizen of India,?\s*hereby request the following information/gi, '');
-    htmlContent = htmlContent.replace(/hereby request the following information under/gi, '');
-    htmlContent = htmlContent.replace(/citizen of India,?\s*hereby request/gi, '');
-    
-    // Remove malformed patterns that occur with place/date processing
     htmlContent = htmlContent.replace(/I,\s*,\s*:/gi, '');
     htmlContent = htmlContent.replace(/I,\s*,\s*$/gi, '');
     htmlContent = htmlContent.replace(/I,\s*:\s*$/gi, '');
@@ -257,25 +250,25 @@ ${place ? `Place: ${place}` : ''}
     <div className="h-full flex flex-col bg-white">
       {/* Ultra-Premium Header */}
       <div className="border-b border-gray-200 bg-white">
-        <div className="flex items-center justify-between p-6">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between p-3 sm:p-4 lg:p-6 gap-4">
           <div className="space-y-1">
-            <h2 className="text-2xl font-light text-gray-900 tracking-tight">Document Preview</h2>
-            <p className="text-sm text-gray-500 font-light">{title}</p>
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-light text-gray-900 tracking-tight">Document Preview</h2>
+            <p className="text-xs sm:text-sm text-gray-500 font-light truncate">{title}</p>
           </div>
           
-          <div className="flex items-center space-x-3">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             {/* Zoom Controls */}
-            <div className="flex items-center border border-gray-200 rounded-md bg-white">
+            <div className="flex items-center border border-gray-200 rounded-md bg-white order-2 sm:order-1">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={zoomOut}
                 disabled={zoomLevel <= 0.5}
-                className="h-9 w-9 p-0 hover:bg-black hover:text-white text-gray-600 rounded-l-md rounded-r-none border-r border-gray-200"
+                className="h-8 w-8 sm:h-9 sm:w-9 p-0 hover:bg-black hover:text-white text-gray-600 rounded-l-md rounded-r-none border-r border-gray-200"
               >
-                <ZoomOut className="h-4 w-4" />
+                <ZoomOut className="h-3 w-3 sm:h-4 sm:w-4" />
               </Button>
-              <div className="px-3 py-1 bg-gray-50 text-gray-900 font-light min-w-[3rem] text-center text-sm">
+              <div className="px-2 sm:px-3 py-1 bg-gray-50 text-gray-900 font-light min-w-[2.5rem] sm:min-w-[3rem] text-center text-xs sm:text-sm">
                 {Math.round(zoomLevel * 100)}%
               </div>
               <Button
@@ -283,9 +276,9 @@ ${place ? `Place: ${place}` : ''}
                 size="sm"
                 onClick={zoomIn}
                 disabled={zoomLevel >= 2}
-                className="h-9 w-9 p-0 hover:bg-black hover:text-white text-gray-600 rounded-r-md rounded-l-none border-l border-gray-200"
+                className="h-8 w-8 sm:h-9 sm:w-9 p-0 hover:bg-black hover:text-white text-gray-600 rounded-r-md rounded-l-none border-l border-gray-200"
               >
-                <ZoomIn className="h-4 w-4" />
+                <ZoomIn className="h-3 w-3 sm:h-4 sm:w-4" />
               </Button>
             </div>
 
@@ -295,15 +288,15 @@ ${place ? `Place: ${place}` : ''}
                 <Button
                   variant="outline"
                   size="sm"
-                  className="h-9 px-3 text-gray-600 hover:text-white hover:bg-black border-gray-200"
+                  className="h-8 sm:h-9 px-2 sm:px-3 text-gray-600 hover:text-white hover:bg-black border-gray-200 text-xs sm:text-sm order-3 sm:order-2"
                 >
-                  <MapPin className="h-4 w-4 mr-2" />
-                  Place
+                  <MapPin className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  <span className="hidden xs:inline">Place</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
+              <DialogContent className="w-[95vw] max-w-md mx-auto">
                 <DialogHeader>
-                  <DialogTitle className="font-light text-xl">Place Settings</DialogTitle>
+                  <DialogTitle className="font-light text-lg sm:text-xl">Place Settings</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4 py-4">
                   <div className="flex items-center justify-between">
@@ -334,14 +327,14 @@ ${place ? `Place: ${place}` : ''}
             </Dialog>
 
             {/* Action Buttons */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-1 sm:gap-2 order-1 sm:order-3 w-full sm:w-auto">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => handleExport('pdf')}
-                className="h-9 px-3 text-gray-600 hover:text-white hover:bg-black border-gray-200"
+                className="flex-1 sm:flex-none h-8 sm:h-9 px-2 sm:px-3 text-gray-600 hover:text-white hover:bg-black border-gray-200 text-xs sm:text-sm"
               >
-                <Download className="h-4 w-4 mr-2" />
+                <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                 PDF
               </Button>
               
@@ -349,9 +342,9 @@ ${place ? `Place: ${place}` : ''}
                 variant="outline"
                 size="sm"
                 onClick={() => handleExport('word')}
-                className="h-9 px-3 text-gray-600 hover:text-white hover:bg-black border-gray-200"
+                className="flex-1 sm:flex-none h-8 sm:h-9 px-2 sm:px-3 text-gray-600 hover:text-white hover:bg-black border-gray-200 text-xs sm:text-sm"
               >
-                <FileText className="h-4 w-4 mr-2" />
+                <FileText className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                 Word
               </Button>
               
@@ -359,9 +352,9 @@ ${place ? `Place: ${place}` : ''}
                 variant="outline"
                 size="sm"
                 onClick={handleCopy}
-                className="h-9 px-3 text-gray-600 hover:text-white hover:bg-black border-gray-200"
+                className="flex-1 sm:flex-none h-8 sm:h-9 px-2 sm:px-3 text-gray-600 hover:text-white hover:bg-black border-gray-200 text-xs sm:text-sm"
               >
-                <Copy className="h-4 w-4 mr-2" />
+                <Copy className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                 Copy
               </Button>
             </div>
@@ -371,33 +364,33 @@ ${place ? `Place: ${place}` : ''}
 
       {/* Document Content */}
       <ScrollArea className="flex-1 bg-gray-50/30">
-        <div className="p-8">
+        <div className="p-2 sm:p-4 lg:p-8">
           <motion.div
             animate={{ scale: zoomLevel }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
             className="origin-top-left"
           >
             <Card className="bg-white shadow-xl border-gray-200 mx-auto max-w-4xl">
-              <CardContent className="p-12">
+              <CardContent className="p-4 sm:p-6 lg:p-12">
                 {/* Professional RTI Document */}
-                <div id="document-content" className="space-y-8">
+                <div id="document-content" className="space-y-4 sm:space-y-6 lg:space-y-8">
                   {/* Document Header - Centered */}
-                  <div className="text-center space-y-4 pb-8 border-b border-gray-200">
-                    <h1 className="text-2xl font-bold text-gray-900 tracking-tight uppercase">
+                  <div className="text-center space-y-2 sm:space-y-4 pb-4 sm:pb-6 lg:pb-8 border-b border-gray-200">
+                    <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 tracking-tight uppercase leading-tight">
                       Application for Information under<br />
                       Right to Information Act, 2005
                     </h1>
-                    <Badge variant="secondary" className="bg-gray-100 text-gray-700 font-light">
+                    <Badge variant="secondary" className="bg-gray-100 text-gray-700 font-light text-xs sm:text-sm">
                       As per Section 6(1) of RTI Act 2005
                     </Badge>
                   </div>
 
                   {/* Application Content */}
-                  <div className="space-y-6 text-gray-800 leading-relaxed">
+                  <div className="space-y-3 sm:space-y-4 lg:space-y-6 text-gray-800 leading-relaxed text-sm sm:text-base">
                     {/* To Section */}
                     <div className="space-y-2">
                       <p className="font-semibold text-gray-900">To,</p>
-                      <div className="pl-4 space-y-1 text-gray-800">
+                      <div className="pl-2 sm:pl-4 space-y-1 text-gray-800">
                         <p>The Public Information Officer,</p>
                         <p className="font-medium">{departmentName}</p>
                       </div>
@@ -412,7 +405,7 @@ ${place ? `Place: ${place}` : ''}
                     <p className="font-medium">Dear Sir/Madam,</p>
 
                     {/* Main Content */}
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       <p className="text-justify">
                         I, <span className="font-semibold">{applicantDetails?.name || '[Your Name]'}</span>, 
                         a citizen of India, hereby request the following information under the Right to Information Act, 2005:
@@ -420,9 +413,9 @@ ${place ? `Place: ${place}` : ''}
 
                       {/* Information Request - Highlighted */}
                       <Card className="border-l-4 border-gray-400 bg-gray-50/50">
-                        <CardContent className="p-4">
+                        <CardContent className="p-3 sm:p-4">
                           <div 
-                            className="text-gray-800 leading-relaxed prose prose-gray max-w-none"
+                            className="text-gray-800 leading-relaxed prose prose-sm sm:prose prose-gray max-w-none"
                             dangerouslySetInnerHTML={{ 
                               __html: cleanContentForDisplay(content).replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/\n+/g, ' ') || "Please add your information request in the composer."
                             }}
@@ -431,7 +424,7 @@ ${place ? `Place: ${place}` : ''}
                       </Card>
 
                       {/* Standard RTI Text */}
-                      <div className="space-y-4 text-justify">
+                      <div className="space-y-3 sm:space-y-4 text-justify">
                         <p>I am enclosing the application fee of Rs. 10/- as required under the RTI Act.</p>
                         <p>Please provide the information within the stipulated time period of 30 days as per the provisions of the Right to Information Act, 2005.</p>
                         <p>Thank you for your cooperation.</p>
@@ -442,33 +435,33 @@ ${place ? `Place: ${place}` : ''}
                   {/* Applicant Details Section */}
                   {applicantDetails && (
                     <Card className="border-gray-200 bg-gray-50/30">
-                      <CardHeader className="pb-4">
-                        <CardTitle className="text-lg font-semibold text-gray-900">Applicant Details</CardTitle>
-      </CardHeader>
-                      <CardContent className="space-y-3">
-                        <div className="grid md:grid-cols-2 gap-4 text-sm">
+                      <CardHeader className="pb-3 sm:pb-4">
+                        <CardTitle className="text-base sm:text-lg font-semibold text-gray-900">Applicant Details</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-2 sm:space-y-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-sm">
                           {applicantDetails.name && (
-                            <div className="flex">
-                              <span className="text-gray-600 font-medium min-w-[80px]">Name:</span>
-                              <span className="text-gray-900">{applicantDetails.name}</span>
+                            <div className="flex flex-col sm:flex-row">
+                              <span className="text-gray-600 font-medium min-w-[80px] mb-1 sm:mb-0">Name:</span>
+                              <span className="text-gray-900 break-words">{applicantDetails.name}</span>
                             </div>
                           )}
                           {applicantDetails.contact && (
-                            <div className="flex">
-                              <span className="text-gray-600 font-medium min-w-[80px]">Contact:</span>
-                              <span className="text-gray-900">{applicantDetails.contact}</span>
+                            <div className="flex flex-col sm:flex-row">
+                              <span className="text-gray-600 font-medium min-w-[80px] mb-1 sm:mb-0">Contact:</span>
+                              <span className="text-gray-900 break-words">{applicantDetails.contact}</span>
                             </div>
                           )}
                           {applicantDetails.email && (
-                            <div className="flex">
-                              <span className="text-gray-600 font-medium min-w-[80px]">Email:</span>
-                              <span className="text-gray-900">{applicantDetails.email}</span>
+                            <div className="flex flex-col sm:flex-row sm:col-span-2">
+                              <span className="text-gray-600 font-medium min-w-[80px] mb-1 sm:mb-0">Email:</span>
+                              <span className="text-gray-900 break-words">{applicantDetails.email}</span>
                             </div>
                           )}
                           {applicantDetails.address && (
-                            <div className="md:col-span-2 flex">
-                              <span className="text-gray-600 font-medium min-w-[80px]">Address:</span>
-                              <span className="text-gray-900">{applicantDetails.address}</span>
+                            <div className="flex flex-col sm:flex-row sm:col-span-2">
+                              <span className="text-gray-600 font-medium min-w-[80px] mb-1 sm:mb-0">Address:</span>
+                              <span className="text-gray-900 break-words">{applicantDetails.address}</span>
                             </div>
                           )}
                         </div>
@@ -477,19 +470,19 @@ ${place ? `Place: ${place}` : ''}
                   )}
 
                   {/* Signature Section */}
-                  <div className="pt-8 border-t border-gray-200">
-                    <div className="flex justify-between items-end">
+                  <div className="pt-4 sm:pt-6 lg:pt-8 border-t border-gray-200">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 sm:gap-0">
                       {/* Date and Place */}
-                      <div className="space-y-3 text-sm text-gray-700">
-                        <div className="flex items-center space-x-2">
-                          <span className="font-medium">Date:</span>
+                      <div className="space-y-2 sm:space-y-3 text-sm text-gray-700 order-2 sm:order-1">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
+                          <span className="font-medium mb-1 sm:mb-0">Date:</span>
                           <span className="border-b border-gray-400 px-2 pb-1 min-w-[120px] text-center">
                             {currentDate}
                           </span>
                         </div>
                         {showPlace && (
-                          <div className="flex items-center space-x-2">
-                            <span className="font-medium">Place:</span>
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
+                            <span className="font-medium mb-1 sm:mb-0">Place:</span>
                             <span className="border-b border-gray-400 px-2 pb-1 min-w-[120px] text-center">
                               {customPlace || userLocation}
                             </span>
@@ -498,22 +491,22 @@ ${place ? `Place: ${place}` : ''}
                       </div>
 
                       {/* Signature */}
-                      <div className="text-center space-y-3">
+                      <div className="text-center space-y-2 sm:space-y-3 order-1 sm:order-2 w-full sm:w-auto">
                         <div className="flex flex-col items-center">
                           {signature ? (
                             <div className="border border-gray-300 rounded p-2 bg-white">
                               <img 
                                 src={signature} 
                                 alt="Digital Signature" 
-                                className="h-16 w-auto max-w-[200px]"
+                                className="h-12 sm:h-16 w-auto max-w-[150px] sm:max-w-[200px]"
                               />
                             </div>
                           ) : (
-                            <div className="h-16 w-48 border-b-2 border-gray-400"></div>
+                            <div className="h-12 sm:h-16 w-32 sm:w-48 border-b-2 border-gray-400"></div>
                           )}
                         </div>
-                        <div className="text-sm space-y-1">
-                          <p className="font-medium text-gray-900">
+                        <div className="text-xs sm:text-sm space-y-1">
+                          <p className="font-medium text-gray-900 break-words">
                             {applicantDetails?.name || '[Your Name]'}
                           </p>
                           <p className="text-gray-600">Applicant Signature</p>
@@ -529,9 +522,9 @@ ${place ? `Place: ${place}` : ''}
                       This application is generated in compliance with the Right to Information Act, 2005
                     </p>
                   </div>
-        </div>
-      </CardContent>
-    </Card>
+                </div>
+              </CardContent>
+            </Card>
           </motion.div>
         </div>
       </ScrollArea>

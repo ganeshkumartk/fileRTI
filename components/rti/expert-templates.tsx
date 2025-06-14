@@ -248,15 +248,15 @@ export function ExpertTemplates() {
   // Loading state
   if (loading) {
     return (
-      <section className="py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-8">
+      <section className="py-16 md:py-24 lg:py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-20"
+            className="text-center mb-12 md:mb-16 lg:mb-20"
           >
-            <h2 className="text-6xl font-light tracking-tight text-gray-900 mb-6">Expert Templates</h2>
-            <p className="text-xl font-light text-gray-500 max-w-2xl mx-auto">Curated formats for government transparency</p>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-tight text-gray-900 mb-4 md:mb-6">Expert Templates</h2>
+            <p className="text-lg sm:text-xl font-light text-gray-500 max-w-2xl mx-auto px-4">Curated formats for government transparency</p>
           </motion.div>
           
           <div className="flex justify-center items-center py-20">
@@ -270,15 +270,15 @@ export function ExpertTemplates() {
   // Error state
   if (error) {
     return (
-      <section className="py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-8">
+      <section className="py-16 md:py-24 lg:py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-20"
+            className="text-center mb-12 md:mb-16 lg:mb-20"
           >
-            <h2 className="text-6xl font-light tracking-tight text-gray-900 mb-6">Expert Templates</h2>
-            <p className="text-xl font-light text-gray-500 max-w-2xl mx-auto">Curated formats for government transparency</p>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-tight text-gray-900 mb-4 md:mb-6">Expert Templates</h2>
+            <p className="text-lg sm:text-xl font-light text-gray-500 max-w-2xl mx-auto px-4">Curated formats for government transparency</p>
           </motion.div>
           
           <Card className="max-w-md mx-auto border-0 shadow-sm">
@@ -300,17 +300,17 @@ export function ExpertTemplates() {
   }
 
   return (
-    <section className="py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-8">
+    <section className="py-16 md:py-24 lg:py-32 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
         {/* Header */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="text-center mb-12 md:mb-16 lg:mb-20"
         >
-          <h2 className="text-6xl font-light tracking-tight text-gray-900 mb-6">Expert Templates</h2>
-          <p className="text-xl font-light text-gray-500 max-w-2xl mx-auto">Curated formats for government transparency</p>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-tight text-gray-900 mb-4 md:mb-6">Expert Templates</h2>
+          <p className="text-lg sm:text-xl font-light text-gray-500 max-w-2xl mx-auto px-4">Curated formats for government transparency</p>
         </motion.div>
 
         {/* Filters */}
@@ -319,7 +319,7 @@ export function ExpertTemplates() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
-          className="flex flex-col sm:flex-row gap-4 mb-16 max-w-2xl mx-auto"
+          className="flex flex-col sm:flex-row gap-4 mb-12 md:mb-16 max-w-2xl mx-auto"
         >
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -327,11 +327,11 @@ export function ExpertTemplates() {
               placeholder="Search templates..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-12 border-gray-200 focus:border-gray-400 focus:ring-0 rounded-full h-12 bg-gray-50/50 font-light"
+              className="pl-12 border-gray-200 focus:border-gray-400 focus:ring-0 rounded-full h-11 sm:h-12 bg-gray-50/50 font-light text-sm sm:text-base"
             />
           </div>
           <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-full sm:w-48 border-gray-200 focus:border-gray-400 focus:ring-0 rounded-full h-12 bg-gray-50/50 font-light">
+            <SelectTrigger className="w-full sm:w-48 border-gray-200 focus:border-gray-400 focus:ring-0 rounded-full h-11 sm:h-12 bg-gray-50/50 font-light text-sm sm:text-base">
               <Filter className="h-4 w-4 mr-2 text-gray-400" />
               <SelectValue />
             </SelectTrigger>
@@ -358,7 +358,7 @@ export function ExpertTemplates() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
             >
               {currentTemplates.length === 0 ? (
                 <div className="col-span-full text-center py-20">
@@ -504,15 +504,15 @@ export function ExpertTemplates() {
 
         {/* Fixed Preview Dialog */}
         <Dialog open={showPreview} onOpenChange={setShowPreview}>
-          <DialogContent className="max-w-4xl w-[95vw] h-[90vh] flex flex-col p-0 gap-0">
+          <DialogContent className="w-[95vw] max-w-4xl h-[90vh] sm:h-[85vh] md:h-[90vh] flex flex-col p-0 gap-0">
             {/* Fixed Header */}
-            <DialogHeader className="flex-shrink-0 border-b border-gray-200 p-6 pr-16">
+            <DialogHeader className="flex-shrink-0 border-b border-gray-200 p-4 sm:p-6 pr-12 sm:pr-16">
               <div className="flex items-start justify-between gap-4">
                 <div className="min-w-0 flex-1">
-                  <DialogTitle className="text-xl font-light text-gray-900 tracking-tight truncate">
+                  <DialogTitle className="text-lg sm:text-xl font-light text-gray-900 tracking-tight truncate">
                     {previewTemplate?.title}
                   </DialogTitle>
-                  <DialogDescription className="text-gray-600 font-light mt-1">
+                  <DialogDescription className="text-sm sm:text-base text-gray-600 font-light mt-1">
                     Template Preview
                   </DialogDescription>
                 </div>
@@ -527,19 +527,19 @@ export function ExpertTemplates() {
             {/* Scrollable Content */}
             <div className="flex-1 min-h-0 overflow-hidden">
               <ScrollArea className="h-full">
-                <div className="p-6">
-                  <div className="max-w-3xl mx-auto space-y-6">
+                <div className="p-4 sm:p-6">
+                  <div className="max-w-3xl mx-auto space-y-4 sm:space-y-6">
                     {/* Content Header */}
                     <div className="text-center">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Template Content</h3>
-                      <p className="text-sm text-gray-600">This content will be included in your RTI application</p>
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">Template Content</h3>
+                      <p className="text-xs sm:text-sm text-gray-600">This content will be included in your RTI application</p>
                     </div>
                     
                     {/* Template Content */}
                     <Card className="border border-gray-200">
-                      <CardContent className="p-6">
+                      <CardContent className="p-4 sm:p-6">
                         <div 
-                          className="prose prose-sm prose-gray max-w-none leading-relaxed text-gray-800"
+                          className="prose prose-xs sm:prose-sm prose-gray max-w-none leading-relaxed text-gray-800"
                           dangerouslySetInnerHTML={{ 
                             __html: formatTemplateContent(previewTemplate?.template_content || "") 
                           }}
@@ -551,7 +551,8 @@ export function ExpertTemplates() {
                     <div className="text-center">
                       <div className="inline-flex items-center gap-2 text-xs text-gray-500 bg-gray-50 px-3 py-2 rounded-full">
                         <Users className="h-3 w-3" />
-                        <span>{previewTemplate?.usage_count} people have used this template</span>
+                        <span className="hidden sm:inline">{previewTemplate?.usage_count} people have used this template</span>
+                        <span className="sm:hidden">{previewTemplate?.usage_count} uses</span>
                       </div>
                     </div>
                   </div>
@@ -560,15 +561,15 @@ export function ExpertTemplates() {
             </div>
 
             {/* Fixed Footer */}
-            <div className="flex-shrink-0 border-t border-gray-200 p-4">
-              <div className="flex flex-col sm:flex-row gap-3 justify-end">
+            <div className="flex-shrink-0 border-t border-gray-200 p-3 sm:p-4 bg-gray-50/50">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-end">
                 <Button 
                   variant="outline" 
                   onClick={handleCopyTemplate}
-                  className="order-2 sm:order-1 hover:bg-gray-900 hover:text-gray-50 border-gray-200 text-gray-600 hover:text-gray-900"
+                  className="order-2 sm:order-1 hover:bg-gray-900 hover:text-gray-50 border-gray-200 text-gray-600 hover:text-gray-900 text-xs sm:text-sm h-8 sm:h-9"
                   size="sm"
                 >
-                  <Copy className="h-4 w-4 mr-2" />
+                  <Copy className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                   Copy
                 </Button>
                 <Button 
@@ -578,7 +579,7 @@ export function ExpertTemplates() {
                       setShowPreview(false)
                     }
                   }}
-                  className="order-1 sm:order-2 bg-gray-900 hover:bg-gray-800 text-white font-light"
+                  className="order-1 sm:order-2 bg-gray-900 hover:bg-gray-800 text-white font-light text-xs sm:text-sm h-8 sm:h-9"
                   size="sm"
                 >
                   Use This Template

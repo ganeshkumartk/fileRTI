@@ -14,7 +14,7 @@ interface ComplianceSectionProps {
 
 export function ComplianceSection({ compliance, wordCount }: ComplianceSectionProps) {
   return (
-    <>
+    <div className="space-y-4">
       <Card className="border border-gray-200 shadow-sm bg-white">
         <CardHeader className="pb-4">
           <CardTitle className="flex items-center space-x-3 font-light text-lg">
@@ -55,6 +55,6 @@ export function ComplianceSection({ compliance, wordCount }: ComplianceSectionPr
           </div>
         </CardContent>
       </Card>
-    </>
+    </div>
   );
 } 
