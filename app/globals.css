@@ -253,29 +253,118 @@ body {
 
 /* CSS Variables */
 :root {
-  --background: 254 254 254;
-  --foreground: 26 26 26;
-  --card: 255 255 255;
-  --card-foreground: 26 26 26;
-  --popover: 255 255 255;
-  --popover-foreground: 26 26 26;
-  --primary: 26 26 26;
-  --primary-foreground: 255 255 255;
-  --secondary: 248 248 248;
-  --secondary-foreground: 26 26 26;
-  --muted: 248 248 248;
-  --muted-foreground: 115 115 115;
-  --accent: 26 26 26;
-  --accent-foreground: 255 255 255;
-  --destructive: 115 115 115;
-  --destructive-foreground: 255 255 255;
-  --border: 232 232 232;
-  --input: 232 232 232;
-  --ring: 115 115 115;
-  --radius: 6px;
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
 }
 
 /* Button transition improvements */
 button {
-  transition: all 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* Prevent browser default focus styles that can cause yellow flash */
+button:focus {
+  outline: none;
+}
+
+button:focus-visible {
+  outline: 2px solid rgba(0, 0, 0, 0.2);
+  outline-offset: 2px;
+}
+
+/* Remove browser default focus styles for all interactive elements */
+*:focus {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+*:focus-visible {
+  outline: 2px solid rgba(0, 0, 0, 0.2);
+  outline-offset: 2px;
+}
+
+/* Webkit specific fixes */
+input:focus,
+textarea:focus,
+button:focus,
+select:focus {
+  outline: none;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent any yellow/orange tap highlights on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+/* Override all Tailwind focus ring utilities to prevent yellow flash */
+.focus\:ring-1:focus,
+.focus\:ring-2:focus,
+.focus\:ring-3:focus,
+.focus\:ring:focus,
+.focus-visible\:ring-1:focus-visible,
+.focus-visible\:ring-2:focus-visible,
+.focus-visible\:ring-3:focus-visible,
+.focus-visible\:ring:focus-visible,
+.focus-within\:ring-1:focus-within,
+.focus-within\:ring-2:focus-within,
+.focus-within\:ring-3:focus-within,
+.focus-within\:ring:focus-within {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Override any ring-offset utilities */
+.ring-offset-1,
+.ring-offset-2,
+.ring-offset-4,
+.ring-offset-8,
+.focus\:ring-offset-1:focus,
+.focus\:ring-offset-2:focus,
+.focus-visible\:ring-offset-1:focus-visible,
+.focus-visible\:ring-offset-2:focus-visible,
+.focus-within\:ring-offset-1:focus-within,
+.focus-within\:ring-offset-2:focus-within {
+  box-shadow: none !important;
+}
+
+/* Prevent all ring colors from showing */
+[class*="ring-"],
+[class*="focus:ring-"],
+[class*="focus-visible:ring-"],
+[class*="focus-within:ring-"] {
+  --tw-ring-color: transparent !important;
+  --tw-ring-shadow: none !important;
 }
