@@ -204,7 +204,7 @@ export const RTIDocument = ({ application, qrCodeDataUrl }: RTIDocumentProps) =>
 
         {/* Footer */}
         <View style={styles.footer}>
-          <Text>Generated via RTI Platform • Verify at rti-platform.vercel.app</Text>
+          <Text>Generated via FileRTI Platform • Verify at file-rti.vercel.app</Text>
         </View>
 
         {/* Page Number */}

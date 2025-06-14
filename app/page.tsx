@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react"
 import { HeroSection } from "@/components/hero-section"
-import { RTIComposer } from "@/components/rti-composer"
-import { RTISidebar } from "@/components/rti-sidebar"
-import { ExpertTemplates } from "@/components/expert-templates"
+import Navigation from "@/components/navigation"
+import RTIComposer from "@/components/rti-composer-new"
+import GuestCTA from "@/components/guest-cta"
+import Footer from "@/components/footer-new"
 import { SetupGuide } from "@/components/setup-guide"
+import { ExpertTemplates } from "@/components/expert-templates"
 
 export default function HomePage() {
   const [isSupabaseConfigured, setIsSupabaseConfigured] = useState<boolean | null>(null)
@@ -37,39 +39,13 @@ export default function HomePage() {
 
   // Show the main application if everything is configured
   return (
-    <main className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100/30">
+      <Navigation />
       <HeroSection />
-      
-      {/* Professional Composer Section */}
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-8">
-          {/* Header */}
-          <div className="text-center mb-16">
-            <h1 className="text-5xl font-light tracking-tight text-neutral-900 mb-4">
-              Professional Composer
-            </h1>
-            <p className="text-xl font-light text-neutral-600 max-w-2xl mx-auto">
-              Precision-crafted legal documents for government transparency
-            </p>
-          </div>
-
-          {/* Main Layout */}
-          <div className="grid grid-cols-1 xl:grid-cols-4 gap-12">
-            {/* Left Column - RTI Composer */}
-            <div className="xl:col-span-3">
-              <RTIComposer />
-            </div>
-
-            {/* Right Column - Sidebar */}
-            <div className="xl:col-span-1">
-              <RTISidebar />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Expert Templates Section */}
+      <RTIComposer />
       <ExpertTemplates />
-    </main>
+      <GuestCTA />
+      <Footer />
+    </div>
   )
 }

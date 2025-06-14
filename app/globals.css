@@ -40,13 +40,6 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
-/* Focus states */
-.focus-ring:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  border-color: #3b82f6;
-}
-
 /* Animations */
 @keyframes fadeIn {
   from {
@@ -198,6 +191,66 @@ body {
   margin-bottom: 0.6em;
 }
 
+/* Tiptap Editor Styles */
+.ProseMirror {
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1.7;
+  color: #374151;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #9ca3af;
+  pointer-events: none;
+  height: 0;
+  font-weight: 300;
+}
+
+.ProseMirror h1, .ProseMirror h2, .ProseMirror h3 {
+  font-weight: 500;
+  color: #1f2937;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.ProseMirror h1 { font-size: 1.875rem; }
+.ProseMirror h2 { font-size: 1.5rem; }
+.ProseMirror h3 { font-size: 1.25rem; }
+
+.ProseMirror blockquote {
+  border-left: 3px solid #e5e7eb;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: #6b7280;
+}
+
+.ProseMirror ul, .ProseMirror ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.ProseMirror li {
+  margin: 0.25rem 0;
+}
+
+.ProseMirror strong {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.ProseMirror em {
+  font-style: italic;
+}
+
+.has-focus {
+  border-radius: 3px;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
 /* CSS Variables */
 :root {
   --background: 254 254 254;
@@ -212,12 +265,17 @@ body {
   --secondary-foreground: 26 26 26;
   --muted: 248 248 248;
   --muted-foreground: 115 115 115;
-  --accent: 248 248 248;
-  --accent-foreground: 26 26 26;
-  --destructive: 239 68 68;
+  --accent: 26 26 26;
+  --accent-foreground: 255 255 255;
+  --destructive: 115 115 115;
   --destructive-foreground: 255 255 255;
   --border: 232 232 232;
   --input: 232 232 232;
-  --ring: 59 130 246;
+  --ring: 115 115 115;
   --radius: 6px;
+}
+
+/* Button transition improvements */
+button {
+  transition: all 0.2s ease-in-out;
 }

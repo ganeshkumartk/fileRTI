@@ -32,9 +32,9 @@ export function HeroSection() {
           </motion.div>
 
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-light tracking-tight mb-8 leading-[0.9]">
-            <span className="font-medium text-gray-900">RTI</span>
+            <span className="font-medium text-gray-900">Your Questions</span>
             <br />
-            <span className="text-gray-500">Simplified</span>
+            <span className="text-gray-500">Their Answers</span>
           </h1>
 
           <p className="text-xl md:text-2xl text-gray-600 font-light max-w-2xl mx-auto mb-12 leading-relaxed">
@@ -61,7 +61,7 @@ export function HeroSection() {
             <Button
               variant="ghost"
               size="lg"
-              className="text-gray-600 hover:text-gray-900 px-8 py-4 text-base font-medium"
+              className="text-gray-600 hover:bg-gray-900 hover:text-gray-50 px-8 py-4 text-base font-medium"
             >
               View Sample
             </Button>

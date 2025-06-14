@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 import { Providers } from "@/components/providers"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { ToastProvider } from "@/components/toast-provider"
+import { Toaster } from "@/components/ui/toaster"
 import { cn } from "@/lib/utils"
 import "./globals.css"
 
@@ -60,6 +61,7 @@ export default function RootLayout({
         <ErrorBoundary>
           <Providers>
             {children}
+            <Toaster />
             <ToastProvider />
           </Providers>
         </ErrorBoundary>
