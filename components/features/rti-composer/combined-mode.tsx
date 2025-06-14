@@ -146,7 +146,7 @@ export function CombinedMode({
         {/* Applicant Status */}
         {applicantData ? (
           <div className="flex items-center gap-2 p-2 m-2 bg-gray-50 border border-gray-200 rounded-lg">
-            <div className="h-2 w-2 bg-gray-500 rounded-full" />
+            <div className="h-2 w-2 bg-green-500 rounded-full" />
             <span className="text-sm text-gray-700">
               Applicant details: {applicantData.name || "Incomplete"}
             </span>

@@ -105,24 +105,6 @@ export function GenerateMode({
               ))}
             </SelectContent>
           </Select>
-          
-          {/* Info Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mt-3 sm:mt-4">
-            <div className="flex items-center gap-2 p-2 sm:p-3 bg-white/60 rounded-lg border border-gray-100">
-              <Target className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600 flex-shrink-0" />
-              <div className="text-xs">
-                <div className="font-medium text-gray-700">Professional Format</div>
-                <div className="text-gray-500">Follows RTI Act guidelines</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 p-2 sm:p-3 bg-white/60 rounded-lg border border-gray-100">
-              <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600 flex-shrink-0" />
-              <div className="text-xs">
-                <div className="font-medium text-gray-700">Quick Generation</div>
-                <div className="text-gray-500">Ready in seconds</div>
-              </div>
-            </div>
-          </div>
 
           {/* Applicant Status */}
           {applicantData?.name ? (
@@ -159,6 +141,23 @@ export function GenerateMode({
             </>
           )}
         </Button>
+        {/* Info Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mt-3 sm:mt-4">
+            <div className="flex items-center gap-2 p-2 sm:p-3 bg-white/60 rounded-lg border border-gray-100">
+              <Target className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600 flex-shrink-0" />
+              <div className="text-xs">
+                <div className="font-medium text-gray-700">Professional Format</div>
+                <div className="text-gray-500">Follows RTI Act guidelines</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 p-2 sm:p-3 bg-white/60 rounded-lg border border-gray-100">
+              <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600 flex-shrink-0" />
+              <div className="text-xs">
+                <div className="font-medium text-gray-700">Quick Generation</div>
+                <div className="text-gray-500">Ready in seconds</div>
+              </div>
+            </div>
+          </div>
       </div>
 
       {/* Generated Content Preview */}
