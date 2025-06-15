@@ -168,10 +168,11 @@ export function CombinedMode({
           <ArrowRight className="w-4 h-4 text-gray-400" />
         </div>
 
-        {/* Tiptap Editor */}
+        {/* Clean Editor */}
         <Card className="border border-gray-200">
           <CardContent className="p-0">
-            <EditorToolbar editor={editor} wordCount={wordCount} />
+            {/* Enhanced Editor Toolbar */}
+            {editor && <EditorToolbar editor={editor} />}
             <div className="border-0 rounded-b-xl min-h-[400px] focus-within:ring-1 focus-within:ring-gray-400 transition-all">
               <EditorContent editor={editor} />
             </div>
@@ -179,7 +180,7 @@ export function CombinedMode({
         </Card>
         <CardFooter>
           <div className="mt-2 text-xs text-gray-500">
-            Tip: Be specific about dates, document types, or particular information you need
+            Tip: Use the Legal Assistant in the sidebar for case laws and RTI references
           </div>
         </CardFooter>
       </div>

@@ -5,12 +5,16 @@ import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import CharacterCount from '@tiptap/extension-character-count';
 import Focus from '@tiptap/extension-focus';
+import Underline from '@tiptap/extension-underline';
+import TextAlign from '@tiptap/extension-text-align';
+import Highlight from '@tiptap/extension-highlight';
 import { validateRTICompliance, exportToPDF, exportToWord } from "@/lib/utils";
 import { useRTIStore } from "@/hooks/use-rti-store";
 import { useDepartments } from "@/hooks/use-departments";
 import { toast } from "sonner";
 import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 
 // Import all the extracted components
 import { ComposerModeSelection } from "../features/rti-composer/composer-mode-selection";
@@ -24,6 +28,10 @@ import { ApplicantDetailsDialog } from "../features/rti-composer/applicant-detai
 import { SignatureDialog } from "../features/rti-composer/signature-dialog";
 import { PreviewDialog } from "../features/rti-composer/preview-dialog";
 import { ComposerMode, ApplicantData } from "../features/rti-composer/types";
+
+// Import new enhanced components
+import { EditorToolbar } from "../features/rti-composer/editor-toolbar";
+import { LegalAssistantModal } from "../features/rti-composer/legal-assistant-modal";
 
 export default function RTIComposer() {
   const { draft, updateDraft, setApplicantDetails } = useRTIStore();
@@ -65,6 +73,11 @@ export default function RTIComposer() {
     immediatelyRender: false,
     extensions: [
       StarterKit,
+      Underline,
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
+      Highlight,
       Placeholder.configure({
         placeholder: ({ node }) => {
           if (node.type.name === 'heading') {
@@ -117,6 +130,13 @@ export default function RTIComposer() {
 
   const handleVoiceTranscript = (transcript: string) => {
     updateDraft({ query: transcript });
+  };
+
+  // Insert text function for legal components
+  const handleInsertText = (text: string) => {
+    if (editor) {
+      editor.chain().focus().insertContent(text).run();
+    }
   };
 
   const handleGenerateRTI = async () => {
@@ -352,6 +372,7 @@ export default function RTIComposer() {
                 onExportPDF={() => handleExport('pdf')}
                 onExportWord={() => handleExport('word')}
                 onShare={handleShare}
+                onInsertText={handleInsertText}
               />
             </motion.div>
 
@@ -381,6 +402,7 @@ export default function RTIComposer() {
               onExportPDF={() => handleExport('pdf')}
               onExportWord={() => handleExport('word')}
               onShare={handleShare}
+              onInsertText={handleInsertText}
             />
           </motion.div>
 

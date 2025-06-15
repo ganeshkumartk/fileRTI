@@ -17,14 +17,15 @@ export function ManualMode({ editor, wordCount }: ManualModeProps) {
         </div>
         <h3 className="text-xl sm:text-2xl font-light text-gray-900 mb-2 sm:mb-3">Manual Composition</h3>
         <p className="text-sm sm:text-base text-gray-500 font-light max-w-md mx-auto px-4">
-          Write your RTI application from scratch with our rich text editor
+          Write your RTI application from scratch with our enhanced text editor
         </p>
       </div>
 
-      {/* Tiptap Editor */}
+      {/* Clean Editor */}
       <Card className="border border-gray-200">
         <CardContent className="p-0">
-          <EditorToolbar editor={editor} wordCount={wordCount} />
+          {/* Enhanced Editor Toolbar */}
+          {editor && <EditorToolbar editor={editor} />}
           <div className="border-0 rounded-b-xl min-h-[400px] sm:min-h-[500px] focus-within:ring-1 focus-within:ring-gray-400 transition-all">
             <EditorContent editor={editor} />
           </div>
@@ -32,7 +33,7 @@ export function ManualMode({ editor, wordCount }: ManualModeProps) {
       </Card>
       <CardFooter className="px-0">
         <div className="mt-2 text-xs text-gray-500">
-          Tip: Be specific about dates, document types, or particular information you need
+          Tip: Use the Legal Assistant in the sidebar for case laws and RTI references
         </div>
       </CardFooter>
     </div>

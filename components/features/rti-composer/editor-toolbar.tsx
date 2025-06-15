@@ -1,99 +1,174 @@
+import React from 'react';
 import { Editor } from '@tiptap/react';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import {
   Bold,
   Italic,
+  Underline,
+  Strikethrough,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  AlignJustify,
   List,
   ListOrdered,
-  Heading1,
-  Heading2,
-  Quote
-} from "lucide-react";
-import { Toggle } from "@/components/ui/toggle";
-import { Separator } from "@/components/ui/separator";
+  Quote,
+  Undo,
+  Redo,
+  Highlighter
+} from 'lucide-react';
 
 interface EditorToolbarProps {
-  editor: Editor | null;
-  wordCount: number;
+  editor: Editor;
 }
 
-export function EditorToolbar({ editor, wordCount }: EditorToolbarProps) {
+export const EditorToolbar: React.FC<EditorToolbarProps> = ({ editor }) => {
+  if (!editor) {
+    return null;
+  }
+
   return (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-1 p-2 sm:p-3 border-b border-gray-200 bg-gray-50/50">
-      {/* Primary formatting buttons */}
-      <div className="flex items-center gap-1 flex-wrap">
-        <Toggle
-          aria-label="Bold"
-          pressed={editor?.isActive('bold')}
-          onPressedChange={() => editor?.chain().focus().toggleBold().run()}
-          className="h-7 w-7 sm:h-8 sm:w-8 p-0 data-[state=on]:bg-gray-200 data-[state=on]:text-gray-900 hover:data-[state=on]:bg-gray-900 hover:data-[state=off]:bg-gray-900 hover:data-[state=off]:text-gray-50"
-        >
-          <Bold className="h-3 w-3 sm:h-4 sm:w-4" />
-        </Toggle>
-        <Toggle
-          aria-label="Italic"
-          pressed={editor?.isActive('italic')}
-          onPressedChange={() => editor?.chain().focus().toggleItalic().run()}
-          className="h-7 w-7 sm:h-8 sm:w-8 p-0 data-[state=on]:bg-gray-200 data-[state=on]:text-gray-900 hover:data-[state=on]:bg-gray-900 hover:data-[state=off]:bg-gray-900 hover:data-[state=off]:text-gray-50"
-        >
-          <Italic className="h-3 w-3 sm:h-4 sm:w-4" />
-        </Toggle>
-        
-        {/* Separator for mobile */}
-        <div className="w-px h-4 bg-gray-300 mx-1 hidden xs:block sm:hidden"></div>
-        
-        <Toggle
-          aria-label="Heading 1"
-          pressed={editor?.isActive('heading', { level: 1 })}
-          onPressedChange={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}
-          className="h-7 w-7 sm:h-8 sm:w-8 p-0 data-[state=on]:bg-gray-200 data-[state=on]:text-gray-900 hover:data-[state=on]:bg-gray-900 hover:data-[state=off]:bg-gray-900 hover:data-[state=off]:text-gray-50"
-        >
-          <Heading1 className="h-3 w-3 sm:h-4 sm:w-4" />
-        </Toggle> 
-        <Toggle
-          aria-label="Heading 2"
-          pressed={editor?.isActive('heading', { level: 2 })}
-          onPressedChange={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}
-          className="h-7 w-7 sm:h-8 sm:w-8 p-0 data-[state=on]:bg-gray-200 data-[state=on]:text-gray-900 hover:data-[state=on]:bg-gray-900 hover:data-[state=off]:bg-gray-900 hover:data-[state=off]:text-gray-50"
-        >
-          <Heading2 className="h-3 w-3 sm:h-4 sm:w-4" />
-        </Toggle>
-        
-        {/* Separator for mobile */}
-        <div className="w-px h-4 bg-gray-300 mx-1 hidden xs:block sm:hidden"></div>
-        
-        <Toggle
-          aria-label="Bullet List"
-          pressed={editor?.isActive('bulletList')}
-          onPressedChange={() => editor?.chain().focus().toggleBulletList().run()}
-          className="h-7 w-7 sm:h-8 sm:w-8 p-0 data-[state=on]:bg-gray-200 data-[state=on]:text-gray-900 hover:data-[state=on]:bg-gray-900 hover:data-[state=off]:bg-gray-900 hover:data-[state=off]:text-gray-50"
-        >
-          <List className="h-3 w-3 sm:h-4 sm:w-4" />
-        </Toggle>
-        <Toggle
-          aria-label="Numbered List"
-          pressed={editor?.isActive('orderedList')}
-          onPressedChange={() => editor?.chain().focus().toggleOrderedList().run()}
-          className="h-7 w-7 sm:h-8 sm:w-8 p-0 data-[state=on]:bg-gray-200 data-[state=on]:text-gray-900 hover:data-[state=on]:bg-gray-900 hover:data-[state=off]:bg-gray-900 hover:data-[state=off]:text-gray-50"
-        >
-          <ListOrdered className="h-3 w-3 sm:h-4 sm:w-4" />
-        </Toggle>
-        <Toggle
-          aria-label="Quote"
-          pressed={editor?.isActive('blockquote')}
-          onPressedChange={() => editor?.chain().focus().toggleBlockquote().run()}
-          className="h-7 w-7 sm:h-8 sm:w-8 p-0 data-[state=on]:bg-gray-200 data-[state=on]:text-gray-900 hover:data-[state=on]:bg-gray-900 hover:data-[state=off]:bg-gray-900 hover:data-[state=off]:text-gray-50"
-        >
-          <Quote className="h-3 w-3 sm:h-4 sm:w-4" />
-        </Toggle>
-      </div>
+    <div className="flex flex-wrap gap-1 px-3 py-2 border-b border-border sticky top-0 z-20">
+      {/* Undo/Redo */}
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={() => editor.chain().focus().undo().run()}
+        disabled={!editor.can().undo()}
+      >
+        <Undo className="h-4 w-4" />
+      </Button>
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={() => editor.chain().focus().redo().run()}
+        disabled={!editor.can().redo()}
+      >
+        <Redo className="h-4 w-4" />
+      </Button>
+      <Separator orientation="vertical" className="mx-1 h-8" />
       
-      {/* Desktop separator */}
-      <Separator orientation="vertical" className="h-6 mx-2 hidden sm:block" />
+      {/* Text Formatting */}
+      <Button
+        variant={editor.isActive('bold') ? 'default' : 'ghost'}
+        size="icon"
+        onClick={() => editor.chain().focus().toggleBold().run()}
+      >
+        <Bold className="h-4 w-4" />
+      </Button>
+      <Button
+        variant={editor.isActive('italic') ? 'default' : 'ghost'}
+        size="icon"
+        onClick={() => editor.chain().focus().toggleItalic().run()}
+      >
+        <Italic className="h-4 w-4" />
+      </Button>
+      <Button
+        variant={editor.isActive('underline') ? 'default' : 'ghost'}
+        size="icon"
+        onClick={() => editor.chain().focus().toggleUnderline().run()}
+      >
+        <Underline className="h-4 w-4" />
+      </Button>
+      <Button
+        variant={editor.isActive('strike') ? 'default' : 'ghost'}
+        size="icon"
+        onClick={() => editor.chain().focus().toggleStrike().run()}
+      >
+        <Strikethrough className="h-4 w-4" />
+      </Button>
+      <Button
+        variant={editor.isActive('highlight') ? 'default' : 'ghost'}
+        size="icon"
+        onClick={() => (editor.chain() as any).focus().toggleHighlight().run()}
+      >
+        <Highlighter className="h-4 w-4" />
+      </Button>
+      <Separator orientation="vertical" className="mx-1 h-8" />
       
-      {/* Word count - repositioned for mobile */}
-      <div className="text-xs text-gray-500 font-light mt-1 sm:mt-0 ml-auto sm:ml-0">
-        {wordCount} words
-      </div>
+      {/* Headings */}
+      <select
+        className="px-2 py-1 border border-border rounded text-sm"
+        value={
+          editor.isActive('heading', { level: 1 }) ? 'h1' :
+          editor.isActive('heading', { level: 2 }) ? 'h2' :
+          editor.isActive('heading', { level: 3 }) ? 'h3' :
+          'paragraph'
+        }
+        onChange={(e) => {
+          const value = e.target.value;
+          if (value === 'h1') {
+            editor.chain().focus().toggleHeading({ level: 1 }).run();
+          } else if (value === 'h2') {
+            editor.chain().focus().toggleHeading({ level: 2 }).run();
+          } else if (value === 'h3') {
+            editor.chain().focus().toggleHeading({ level: 3 }).run();
+          } else {
+            editor.chain().focus().setParagraph().run();
+          }
+        }}
+      >
+        <option value="paragraph">Paragraph</option>
+        <option value="h1">Heading 1</option>
+        <option value="h2">Heading 2</option>
+        <option value="h3">Heading 3</option>
+      </select>
+      <Separator orientation="vertical" className="mx-1 h-8" />
+      
+      {/* Alignment */}
+      <Button
+        variant={editor.isActive({ textAlign: 'left' }) ? 'default' : 'ghost'}
+        size="icon"
+        onClick={() => (editor.chain() as any).focus().setTextAlign('left').run()}
+      >
+        <AlignLeft className="h-4 w-4" />
+      </Button>
+      <Button
+        variant={editor.isActive({ textAlign: 'center' }) ? 'default' : 'ghost'}
+        size="icon"
+        onClick={() => (editor.chain() as any).focus().setTextAlign('center').run()}
+      >
+        <AlignCenter className="h-4 w-4" />
+      </Button>
+      <Button
+        variant={editor.isActive({ textAlign: 'right' }) ? 'default' : 'ghost'}
+        size="icon"
+        onClick={() => (editor.chain() as any).focus().setTextAlign('right').run()}
+      >
+        <AlignRight className="h-4 w-4" />
+      </Button>
+      <Button
+        variant={editor.isActive({ textAlign: 'justify' }) ? 'default' : 'ghost'}
+        size="icon"
+        onClick={() => (editor.chain() as any).focus().setTextAlign('justify').run()}
+      >
+        <AlignJustify className="h-4 w-4" />
+      </Button>
+      <Separator orientation="vertical" className="mx-1 h-8" />
+      
+      {/* Lists and Quote */}
+      <Button
+        variant={editor.isActive('bulletList') ? 'default' : 'ghost'}
+        size="icon"
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+      >
+        <List className="h-4 w-4" />
+      </Button>
+      <Button
+        variant={editor.isActive('orderedList') ? 'default' : 'ghost'}
+        size="icon"
+        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+      >
+        <ListOrdered className="h-4 w-4" />
+      </Button>
+      <Button
+        variant={editor.isActive('blockquote') ? 'default' : 'ghost'}
+        size="icon"
+        onClick={() => editor.chain().focus().toggleBlockquote().run()}
+      >
+        <Quote className="h-4 w-4" />
+      </Button>
     </div>
   );
-} 
+}; 

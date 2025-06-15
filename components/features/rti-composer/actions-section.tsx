@@ -1,20 +1,23 @@
-import { Download, Eye, FileText, Share2 } from "lucide-react";
+import { Download, Eye, FileText, Share2, Scale } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { LegalAssistantModal } from "./legal-assistant-modal";
 
 interface ActionsSectionProps {
   onPreview: () => void;
   onExportPDF: () => void;
   onExportWord: () => void;
   onShare: () => void;
+  onInsertText: (text: string) => void;
 }
 
 export function ActionsSection({ 
   onPreview, 
   onExportPDF, 
   onExportWord, 
-  onShare 
+  onShare,
+  onInsertText
 }: ActionsSectionProps) {
   return (
     <Card className="border border-gray-200 shadow-sm bg-white">
@@ -25,6 +28,16 @@ export function ActionsSection({
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
+        <LegalAssistantModal onInsertText={onInsertText}>
+          <Button
+            className="w-full justify-start hover:bg-gray-900 hover:text-white rounded-xl font-light"
+            variant="outline"
+          >
+            <Scale className="w-4 h-4 mr-3" />
+            Legal Assistant
+          </Button>
+        </LegalAssistantModal>
+        <Separator />
         <Button
           className="w-full justify-start hover:bg-gray-900 hover:text-gray-50 rounded-xl font-light"
           variant="outline"
