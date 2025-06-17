@@ -342,18 +342,18 @@ GET /api/templates/:category # Get templates by category
 
 ### Development Server
 ```bash
-npm run dev     # Start development server
-npm run build   # Build for production
-npm run start   # Start production server
-npm run lint    # Run ESLint
+bun run dev     # Start development server
+bun run build   # Build for production
+bun run start   # Start production server
+bun run lint    # Run ESLint
 ```
 
 ### Code Quality
 
 #### Linting
 ```bash
-npm run lint          # Check for linting errors
-npm run lint:fix      # Auto-fix linting errors
+bun run lint          # Check for linting errors
+bun run lint:fix      # Auto-fix linting errors
 ```
 
 #### Type Checking
@@ -363,7 +363,7 @@ npx tsc --noEmit     # Type check without compilation
 
 #### Testing
 ```bash
-npm run test         # Run tests (when implemented)
+bun run test         # Run tests (when implemented)
 ```
 
 ### Development Guidelines
@@ -485,10 +485,10 @@ cd rti-platform
 git checkout -b feature/your-feature-name
 
 # Install dependencies
-npm install
+bun install
 
 # Start development
-npm run dev
+bun run dev
 ```
 
 ### Contribution Guidelines

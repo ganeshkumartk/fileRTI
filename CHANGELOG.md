@@ -5,6 +5,68 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2024-12-19
+
+### ♻️ Refactored
+
+#### PDF Generation System Cleanup
+- **Consolidated PDF Architecture**: Removed duplicate PDF generation systems and organized into single, efficient pipeline
+- **File Structure Optimization**: 
+  - Moved `lib/pdf-generator.tsx` → `lib/pdf/generator.tsx` for better organization
+  - Created `lib/pdf/index.ts` for clean exports
+  - Added `lib/pdf/README.md` with comprehensive documentation
+- **Removed Unused Components**:
+  - `components/pdf/pdf-generator.tsx` (unused PDFGenerator component)
+  - `components/pdf/rti-document.tsx` (unused RTIDocument component)
+  - `components/pdf/pdf-preview.tsx` (unused preview component)
+  - `app/api/rti/pdf/route.ts` (unused API route)
+  - `lib/pdf-utils.ts` (unused utilities)
+- **Import Path Optimization**: Updated all imports to use clean `lib/pdf` index exports
+
+#### Dependency Cleanup
+- **Removed @tanstack/react-query**: Eliminated unused React Query dependency and all related code
+- **Package Removal**: Uninstalled both `@tanstack/react-query` and `@tanstack/react-query-devtools`
+- **File Deletions**: Removed `lib/queryClient.ts` (57 lines of unused configuration)
+- **Provider Simplification**: Streamlined `components/shared/providers.tsx` to only include TooltipProvider
+- **Import Cleanup**: Removed unused `useQuery` import from templates component
+
+### 🗑️ Removed
+
+#### Unused Code Elimination
+- **Duplicate PDF Generator**: Removed `lib/pdf-generator.tsx` after confirming identical content with organized version
+- **Debug Code**: Cleaned up all console.log statements from PDF-related components
+- **Dead Code**: Removed unused PDF utility functions and API endpoints
+- **React Query Infrastructure**: Complete removal of query client configuration and providers
+
+### 📦 Dependencies
+
+#### Package Optimization
+- **Reduced Bundle Size**: Removed unnecessary React Query dependencies (~4 packages)
+- **Cleaner Dependencies**: Eliminated unused packages from package.json and package-lock.json
+- **Build Performance**: Improved build times with fewer dependencies to process
+
+### 🏗️ Architecture
+
+#### Streamlined Structure
+- **Single PDF Pipeline**: Consolidated to `lib/utils.ts` → `lib/pdf/generator.tsx` flow
+- **Clean Import Structure**: All PDF functionality accessible through `lib/pdf` index
+- **Simplified Providers**: Removed QueryClientProvider, kept only essential TooltipProvider
+- **Template System**: Templates now use local mock data instead of unused query system
+
+### 📚 Documentation
+
+#### PDF System Documentation
+- **Comprehensive README**: Added `lib/pdf/README.md` with usage examples and architecture overview
+- **Removed Components List**: Documented all cleaned up files and their previous purposes
+- **Clean Usage Examples**: Provided clear import patterns and usage instructions
+
+### ✅ Verification
+
+#### Build & Testing
+- **Build Verification**: Confirmed successful compilation after all removals
+- **Import Validation**: Tested all PDF export functionality still works correctly
+- **Bundle Analysis**: Verified reduced bundle size and cleaner dependency tree
+
 ## [1.0.0] - 2024-12-19
 
 ### ✨ Added

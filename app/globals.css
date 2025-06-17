@@ -247,8 +247,7 @@ body {
 }
 
 .has-focus {
-  border-radius: 3px;
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+  /* Removed box-shadow to eliminate multiple bounding boxes in editor */
 }
 
 /* CSS Variables */

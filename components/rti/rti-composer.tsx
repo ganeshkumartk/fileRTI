@@ -4,11 +4,12 @@ import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import CharacterCount from '@tiptap/extension-character-count';
-import Focus from '@tiptap/extension-focus';
+// import Focus from '@tiptap/extension-focus'; // Removed to eliminate bounding boxes
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Highlight from '@tiptap/extension-highlight';
-import { validateRTICompliance, exportToPDF, exportToWord } from "@/lib/utils";
+import { exportToPDF, exportToWord } from "@/lib/utils";
+import { validateRTICompliance } from "@/lib/ai/gemini-client";
 import { useRTIStore } from "@/hooks/use-rti-store";
 import { useDepartments } from "@/hooks/use-departments";
 import { toast } from "sonner";
@@ -19,6 +20,7 @@ import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/componen
 // Import all the extracted components
 import { ComposerModeSelection } from "../features/rti-composer/composer-mode-selection";
 import { GenerateMode } from "../features/rti-composer/generate-mode";
+import { EnhancedGenerateMode } from "../features/rti-composer/enhanced-generate-mode";
 import { ManualMode } from "../features/rti-composer/manual-mode";
 import { CombinedMode } from "../features/rti-composer/combined-mode";
 import { FinalizeSection } from "../features/rti-composer/finalize-section";
@@ -89,10 +91,7 @@ export default function RTIComposer() {
       CharacterCount.configure({
         limit: 10000,
       }),
-      Focus.configure({
-        className: 'has-focus',
-        mode: 'all',
-      }),
+      // Removed Focus extension to eliminate multiple bounding boxes
     ],
     content: draft.content || '',
     onUpdate: ({ editor }) => {
@@ -224,6 +223,7 @@ export default function RTIComposer() {
 
       toast.success(`RTI exported as ${format.toUpperCase()}`, { description: "Professional document generated successfully" });
     } catch (error) {
+      console.error('Export error in handleExport:', error);
       toast.error("Export Failed", {
         description: `Failed to export as ${format.toUpperCase()}. Please try again.`,
       });
@@ -240,7 +240,7 @@ export default function RTIComposer() {
   };
 
   // Computed values
-  const compliance = validateRTICompliance(draft.content);
+  const compliance = validateRTICompliance(draft.content || '');
   const wordCount = editor?.storage.characterCount.words() || 0;
   const departmentName = departments.find(d => d.id === draft.departmentId)?.name || "[Department Name]";
 
@@ -311,6 +311,24 @@ export default function RTIComposer() {
                       onDepartmentChange={(departmentId) => updateDraft({ departmentId })}
                       onVoiceTranscript={handleVoiceTranscript}
                       onGenerate={handleGenerateRTI}
+                      onPreview={() => setShowPreview(true)}
+                    />
+                  </TabsContent>
+
+                  {/* Enhanced AI Generation Mode */}
+                  <TabsContent value="enhanced" className="mt-0">
+                    <EnhancedGenerateMode
+                      query={draft.query}
+                      departmentId={draft.departmentId}
+                      departments={departments}
+                      departmentsLoading={departmentsLoading}
+                      departmentsError={departmentsError}
+                      applicantData={applicantData}
+                      editor={editor}
+                      wordCount={wordCount}
+                      onQueryChange={(query) => updateDraft({ query })}
+                      onDepartmentChange={(departmentId) => updateDraft({ departmentId })}
+                      onVoiceTranscript={handleVoiceTranscript}
                       onPreview={() => setShowPreview(true)}
                     />
                   </TabsContent>

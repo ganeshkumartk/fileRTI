@@ -1,4 +1,4 @@
-export type ComposerMode = 'manual' | 'generate' | 'combined';
+export type ComposerMode = 'manual' | 'generate' | 'combined' | 'enhanced';
 
 export interface Department {
   id: string;
